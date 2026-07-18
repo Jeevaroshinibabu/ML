@@ -1,0 +1,75 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Machine Learning Assessment</title>
+<style>
+body{font-family:Arial,sans-serif;background:#f4f4f4;margin:20px;}
+.container{max-width:900px;margin:auto;background:white;padding:20px;border-radius:8px;box-shadow:0 2px 8px rgba(0,0,0,.2)}
+h1{text-align:center}
+.question{margin:20px 0;padding:15px;border-left:5px solid #1976d2;background:#fafafa}
+button{padding:10px 18px;font-size:16px}
+.result{font-size:22px;font-weight:bold;margin-top:20px}
+.correct{color:green}
+.wrong{color:red}
+</style>
+</head>
+<body>
+<div class="container">
+<h1>Machine Learning Assessment (15 MCQs)</h1>
+<p><b>Topics:</b> EDA, Linear Regression, Logistic Regression, Validation Metrics</p>
+<form id="quiz"></form>
+<button type="button" onclick="gradeQuiz()">Submit</button>
+<div id="result" class="result"></div>
+</div>
+
+<script>
+const questions=[
+{q:"1. Which statistic is least affected by extreme outliers?",o:["Mean","Median","Variance","Standard Deviation"],a:1},
+{q:"2. A Pearson correlation coefficient close to 0 implies:",o:["No linear relationship","No relationship at all","Perfect nonlinear relationship","Strong negative correlation"],a:0},
+{q:"3. Which plot is most appropriate to detect multicollinearity among numerical variables?",o:["Histogram","Pair Plot","Heatmap of Correlation","Pie Chart"],a:2},
+{q:"4. In linear regression, minimizing the Sum of Squared Errors primarily helps because:",o:["It increases bias","Large errors are penalized more","It guarantees zero error","It removes multicollinearity"],a:1},
+{q:"5. Which assumption is NOT required for linear regression?",o:["Linearity","Independent errors","Normality of residuals","Target variable must be binary"],a:3},
+{q:"6. Logistic regression predicts:",o:["Continuous values","Probability of class membership","Clusters","Principal Components"],a:1},
+{q:"7. Logistic regression uses which function?",o:["ReLU","Sigmoid","Softmax only","Tanh"],a:1},
+{q:"8. If the log-odds increase by 1, the odds are multiplied by:",o:["1","2","e","10"],a:2},
+{q:"9. High accuracy with poor recall usually indicates:",o:["Excellent model","Possible class imbalance issue","Underfitting only","Perfect calibration"],a:1},
+{q:"10. Precision is most important when:",o:["False negatives are costly","False positives are costly","Classes are balanced","Using regression"],a:1},
+{q:"11. Recall is most important for:",o:["Spam filtering","Cancer detection","Movie recommendation","Stock prediction"],a:1},
+{q:"12. Which metric combines precision and recall?",o:["ROC-AUC","Adjusted R²","F1 Score","MAE"],a:2},
+{q:"13. ROC curve plots:",o:["Precision vs Recall","TPR vs FPR","Accuracy vs Threshold","Recall vs Specificity"],a:1},
+{q:"14. Which statement about R² is TRUE?",o:["Can never be negative","Measures classification accuracy","Represents variance explained","Equals correlation always"],a:2},
+{q:"15. A model has TP=40, FP=10, FN=20. What is Precision?",o:["0.50","0.67","0.80","0.40"],a:2}
+];
+
+const form=document.getElementById("quiz");
+questions.forEach((x,i)=>{
+ let div=document.createElement("div");
+ div.className="question";
+ let html="<p><b>"+x.q+"</b></p>";
+ x.o.forEach((opt,j)=>{
+   html+=`<label><input type="radio" name="q${i}" value="${j}"> ${opt}</label><br>`;
+ });
+ div.innerHTML=html;
+ form.appendChild(div);
+});
+
+function gradeQuiz(){
+ let score=0;
+ let out="";
+ questions.forEach((q,i)=>{
+   const ans=document.querySelector('input[name="q'+i+'"]:checked');
+   if(ans && parseInt(ans.value)===q.a){score++;}
+ });
+ let pct=(score/questions.length*100).toFixed(1);
+ let grade="Needs Improvement";
+ if(pct>=85) grade="Excellent";
+ else if(pct>=70) grade="Very Good";
+ else if(pct>=50) grade="Good";
+ document.getElementById("result").innerHTML=
+ "Score: "+score+" / "+questions.length+" ("+pct+"%)<br>Grade: "+grade;
+}
+</script>
+</body>
+</html>
